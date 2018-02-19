@@ -19,4 +19,16 @@
 		<property name="dataSource" ref="bds"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
 	</bean>
+	<bean class="com.iot.spring.dao.impl.NaverTransDAOImpl">
+		<property name="url" value="https://openapi.naver.com/v1/language/translate"/>
+		<property name="contentType" value="application/x-www-form-urlencoded; charset=UTF-8"/>
+		<property name="clientId" value="AWUIy_AwZe_gonPJmNuB"/>
+		<property name="clientSecret" value="2UJWIrvxhv"/>
+		<property name="source" value="en"/>
+		<property name="target" value="ko"/>
+	</bean>
+	
+	<bean class="org.codehaus.jackson.map.ObjectMapper">
+		
+	</bean>
 </beans>

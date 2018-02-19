@@ -119,8 +119,10 @@ function dbListCB(res){
 
 function callback2(xhr,res){
 	res =JSON.parse(res);
-	var a = "ㅗ^^";
-	alert(a);
+	
+	if(res.errorMsg){
+		alert(res.errorMsg);
+	}
 	
  	if(res.list){
 		var sqlResultGrid = cLay.attachGrid();
