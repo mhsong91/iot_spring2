@@ -155,6 +155,8 @@ dhtmlxEvent(window,"load",function(){
 	var aToolbar = aLay.attachToolbar();
 	aToolbar.addButton("addcon",1,"add Connector");
 	aToolbar.addButton("condb",2,"Connection");
+	
+	
 	aToolbar.attachEvent("onClick",function(id){
 		if(id=="condb"){
 			var rowId =dbTree.getSelectedId();
@@ -168,6 +170,8 @@ dhtmlxEvent(window,"load",function(){
 			popW.show();
 		}
 	})
+	
+	
 	var au = new AjaxUtil("${root}/connection/list",null,"get");
 	au.send(connectionListCB); 
 	

@@ -3,6 +3,8 @@ package com.iot.spring.dao;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.iot.spring.vo.ColumnVO;
@@ -18,5 +20,5 @@ public interface ConnectionInfoDAO {
 	List<Map<String,Object>> selectDatabaseList(SqlSession ss)throws Exception ;
 	List<TableVO> selectTableList(SqlSession ss, String dbName);
 	List<ColumnVO> selectColumnList(SqlSession ss, Map<String,String> map);
-	List<Object> getsql(Map<String,Object> map);
+	List<Object> getsql(SqlSession ss, Map<String,Object> map);
 }

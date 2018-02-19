@@ -16,7 +16,7 @@ public class DBConnector {
 	public void setConnectionInfo(ConnectionInfoVO ci)throws Exception {
 		bds = new BasicDataSource();
 		bds.setDriverClassName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mysql://" + ci.getCiUrl() + ":" + ci.getCiPort() ;
+		String url = "jdbc:mysql://" + ci.getCiUrl() + ":" + ci.getCiPort()+"/"+ci.getCiDatabase() ;
 		bds.setUrl(url);
 		bds.setUsername(ci.getCiUser());
 		bds.setPassword(ci.getCiPwd());
@@ -25,7 +25,17 @@ public class DBConnector {
 		ssf.setConfigLocation(new ClassPathResource("/custom-mybatis-config.xml"));
 	}
 	
+	
+	
+	
+	
+	
 	public SqlSession getSqlSession() throws Exception{
+		
 		return ssf.getObject().openSession();
+		
 	}
+	
+	
+	
 }

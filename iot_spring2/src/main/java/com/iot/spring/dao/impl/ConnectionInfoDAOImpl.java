@@ -70,9 +70,8 @@ public class ConnectionInfoDAOImpl implements ConnectionInfoDAO {
 		return ss.selectList("connection_info.selectColumn",map);
 	}
 	@Override
-	public List<Object> getsql(Map<String, Object> map) {
-		SqlSession ss = ssf.openSession();
-		List<Object> list=ss.selectList("connection_info.sql",map);
+	public List<Object> getsql(SqlSession ss ,Map<String, Object> map) {
+		 	List<Object> list=ss.selectList("connection_info.sql",map);
 		
 		return list;
 		

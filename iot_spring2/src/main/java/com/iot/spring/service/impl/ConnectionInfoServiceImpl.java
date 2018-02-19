@@ -59,8 +59,7 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 	
 	public List<Map<String,Object>> getDatabaseList(HttpSession hs,int ciNo)throws Exception {
 		ConnectionInfoVO ci = cidao.selectConnectionInfo(ciNo);
-		
-		System.out.println("?????           "+ci);
+
 		dbc.setConnectionInfo(ci);
 		SqlSession ss = dbc.getSqlSession();
 		hs.setAttribute("sqlSession", ss);
@@ -89,7 +88,8 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 	}
 
 	@Override
-	public List<Object> getSql( Map<String, Object> map) {
-		return cidao.getsql(map);
+	public List<Object> getSql( HttpSession hs,Map<String, Object> map) {
+		SqlSession ss = (SqlSession)hs.getAttribute("sqlSession");
+		return cidao.getsql(ss,map);
 	}
 }

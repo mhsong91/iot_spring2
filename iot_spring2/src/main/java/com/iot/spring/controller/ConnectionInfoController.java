@@ -33,7 +33,7 @@ public class ConnectionInfoController {
 	public @ResponseBody Map<String,Object> getConnectionList(HttpSession hs,Map<String,Object>map){
 		UserInfoVO ui = new UserInfoVO();
 		if(hs.getAttribute("user")!=null) {
-			ui = (UserInfoVO)hs.getAttribute("user");
+			ui.setUiId(hs.getAttribute("user").toString());
 		}else {
 			ui.setUiId("red");
 		}
@@ -95,9 +95,9 @@ public class ConnectionInfoController {
 		return map;
 	}
 	@RequestMapping(value="/sql", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getSql(@RequestParam Map<String,Object> map){
+	public @ResponseBody Map<String,Object> getSql(HttpSession hs,@RequestParam Map<String,Object> map){
 		System.out.println(map);
-		List<Object> sqlResult = cis.getSql(map);
+		List<Object> sqlResult = cis.getSql(hs,map);
 		System.out.println("??        "+sqlResult);
 		map.put("list", sqlResult);
 		System.out.println(map);
