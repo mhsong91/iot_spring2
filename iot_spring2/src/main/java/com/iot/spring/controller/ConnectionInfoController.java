@@ -105,11 +105,13 @@ public class ConnectionInfoController {
 
 	@RequestMapping(value = "/sql", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> getSql(HttpSession hs, @RequestParam Map<String, Object> map) {
+		long startTime = System.currentTimeMillis();
 		String[] sqls = map.get("sqlTa").toString().split(";");
-		;
+		
 		System.out.println("!!!!!!!!!!!!!!!!!"+map.get("sqlTa"));
 		map.put("list",cis.getSql(hs, map, sqls));
-		
+		long setTime =System.currentTimeMillis()-startTime;
+		map.put("time",setTime);
 		return map;
 	}
 

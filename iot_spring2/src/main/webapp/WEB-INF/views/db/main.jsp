@@ -153,7 +153,8 @@ function callback2(xhr,res){
 		$("div.text").append("에러ㅗ^^");
 	}
  	if(res.list[0][0]){
- 		
+ 		$("div.text").append("실행한행:"+res.list.length+",");	
+ 		$("div.text").append("실행시간:"+res.time+"Millis");	
 	cTabs = cLay.attachTabbar();
 		
 		for(var i=0;i<res.list.length;i++){
@@ -286,10 +287,6 @@ dhtmlxEvent(window,"load",function(){
 		}
 	});
 })
-//{"sqlTa":"select * from user_info;\nselect *from connection_info;","list":[[{"uiNo":16,"uiPwd":"red","uiId":"red","admin":"1","uiName":"홍길동","uiEmail":"red@naver.com"},{"uiNo":17,"uiPwd":"song","uiId":"song","admin":"1","uiName":"송길동","uiEmail":"song"}],[{"ciPwd":"test","ciNo":2,"uiId":"red","ciPort":3306,"ciDatabase":"iot2","ciName":"로컬호스트","ciUrl":"127.0.0.1","ciEtc":"aa","ciUser":"root"},{"ciPwd":"dbtest","ciNo":3,"uiId":"red","ciPort":3306,"ciDatabase":"dbconnector","ciName":"로컬어드민","ciUrl":"127.0.0.1","ciEtc":"aa","ciUser":"dbtest"}]]}
-
-
-
 
 
 </script>
