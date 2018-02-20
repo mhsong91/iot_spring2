@@ -35,7 +35,6 @@ div.controls {
 	height: 70px;
 	border: 1px solid #dfdfdf;
 }
-
 </style>
 <script> 
 
@@ -43,7 +42,9 @@ var bodyLayout, dbTree,winF,popW;
 var aLay, bLay, cLay;
 var bTabs, bTab1, bTab2, bTab3;
 var tableInfoGrid;
+var cTabs;
 function columnListCB(res){
+		
 	if(res.list){
 		tableInfoGrid = bTabs.tabs("tableInfo").attachGrid();
 		var columns = res.list[0];
@@ -63,7 +64,32 @@ function columnListCB(res){
 		tableInfoGrid.parse({data:res.list},"js");
 		console.log(res);
 	}
+
 }
+
+function tableDataCB(res){
+		
+	if(res.list){
+		tableDataGrid = bTabs.tabs("tableData").attachGrid();
+		var columns = res.list[0];
+		var headerStr = "";
+		var colTypeStr = "";
+		for(var key in columns){
+			if(key=="id") continue;
+			headerStr += key + ",";
+			colTypeStr += "ro,";
+		}
+		headerStr = headerStr.substr(0, headerStr.length-1);
+		colTypeStr = colTypeStr.substr(0, colTypeStr.length-1);
+		tableDataGrid.setColumnIds(headerStr);
+		tableDataGrid.setHeader(headerStr);
+		tableDataGrid.setColTypes(colTypeStr);
+		tableDataGrid.init();
+		tableDataGrid.parse({data:res.list},"js");
+		console.log(res);
+	}
+}
+
 function connectionListCB(res){
 	dbTree = aLay.attachTreeView({
 	    items: res.list
@@ -80,6 +106,9 @@ function connectionListCB(res){
 			var tableName = dbTree.getUserData(id,"orgText");
 			var au = new AjaxUtil("${root}/connection/columns/" + dbName + "/" + tableName,null,"get");
 			au.send(columnListCB);
+			var tableName = dbTree.getUserData(id,"orgText");
+			var au = new AjaxUtil("${root}/connection/tabledata/" + tableName,null,"get");
+			au.send(tableDataCB);
 		} 
 	});
 }
@@ -119,14 +148,14 @@ function dbListCB(res){
 
 function callback2(xhr,res){
 	res =JSON.parse(res);
-	
 	if(res.errorMsg){
 		alert(res.errorMsg);
+		$("div.text").append("에러ㅗ^^");
 	}
-	
  	if(res.list){
+ 		
 		var sqlResultGrid = cLay.attachGrid();
-		var columns = res.list[0];
+		var columns = res.list[0][0];
 		var headerStr = "";
 		var colTypeStr = "";
 		for(var key in columns){
@@ -139,14 +168,22 @@ function callback2(xhr,res){
 		sqlResultGrid.setHeader(headerStr);
 		sqlResultGrid.setColTypes(colTypeStr);
 		sqlResultGrid.init();
-		sqlResultGrid.parse({data:res.list},"js");
-		
-	} 
+		sqlResultGrid.parse({data:res.list[0]},"js");
+	/* 	var log = document.getElementById('footDiv');
+ 		log.innerHTML=colTypeStr.size;	
+ 	 */
+ 	}
+ 		
+ 	
 }
 
 
 
 dhtmlxEvent(window,"load",function(){
+
+	
+	
+	
 	bodyLayout = new dhtmlXLayoutObject(document.body,"3L");
 	bodyLayout.attachFooter("footDiv");
 	aLay = bodyLayout.cells("a");
@@ -197,6 +234,7 @@ dhtmlxEvent(window,"load",function(){
 	
 	sqlForm.attachEvent("onButtonClick",function(id){
 		if(id=="runBtn"){
+			$("div.text").append(sqlForm.getItemValue("sqlTa"));
 			if(sqlForm.validate()){
 				sqlForm.send("${root}/connection/sql", "post",callback2);
 			}
@@ -242,12 +280,17 @@ dhtmlxEvent(window,"load",function(){
 			form.clear();
 		}
 	});
-	
 })
+
+
+
+
+
+
 </script>
 <body>
 	<div id="footDiv" class="my_ftr">
-		<div class="text">log</div>
+		<div class="text">log:</div>
 	</div>
 </body>
 </html>

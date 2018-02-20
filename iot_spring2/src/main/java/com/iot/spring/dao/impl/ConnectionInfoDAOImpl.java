@@ -20,7 +20,7 @@ public class ConnectionInfoDAOImpl implements ConnectionInfoDAO {
 
 	@Autowired
 	private SqlSessionFactory ssf;
-	
+
 	@Override
 	public List<ConnectionInfoVO> selectConnectionInfoList(String uiId) {
 		SqlSession ss = ssf.openSession();
@@ -28,19 +28,20 @@ public class ConnectionInfoDAOImpl implements ConnectionInfoDAO {
 		ss.close();
 		return ciList;
 	}
+
 	@Override
 	public ConnectionInfoVO selectConnectionInfo(int ciNo) {
 		SqlSession ss = ssf.openSession();
 		ConnectionInfoVO ci = ss.selectOne("connection_info.selectConnectionInfoWithCiNo", ciNo);
 		ss.close();
-		return ci; 
+		return ci;
 	}
 
 	@Override
 	public List<ConnectionInfoVO> selectConnectionInfoList(ConnectionInfoVO ci) {
 		List<ConnectionInfoVO> result = null;
 		final SqlSession ss = ssf.openSession();
-		result = ss.selectList("connection_info.selectConnectionInfo",ci);
+		result = ss.selectList("connection_info.selectConnectionInfo", ci);
 		ss.close();
 		return result;
 	}
@@ -58,23 +59,30 @@ public class ConnectionInfoDAOImpl implements ConnectionInfoDAO {
 	public List<Map<String, Object>> selectDatabaseList(SqlSession ss) throws Exception {
 		return ss.selectList("connection_info.selectDatabase");
 	}
+
 	@Override
-	public List<TableVO> selectTableList(SqlSession ss,String dbName) {
+	public List<TableVO> selectTableList(SqlSession ss, String dbName) {
 		List<TableVO> result = null;
-		result = ss.selectList("connection_info.selectTable",dbName);
+		result = ss.selectList("connection_info.selectTable", dbName);
 		return result;
 	}
 
 	@Override
-	public List<ColumnVO> selectColumnList(SqlSession ss,Map<String,String> map) {
-		return ss.selectList("connection_info.selectColumn",map);
+	public List<ColumnVO> selectColumnList(SqlSession ss, Map<String, String> map) {
+		return ss.selectList("connection_info.selectColumn", map);
 	}
+
 	@Override
-	public List<Object> getsql(SqlSession ss ,Map<String, Object> map) {
-		 	List<Object> list=ss.selectList("connection_info.sql",map);
+	public List<Object> getsql(SqlSession ss, String str) {
+		List<Object> setlist = ss.selectList("connection_info.sql", str);
 		
+		return setlist;
+	}
+
+	@Override
+	public List<Object> selectTableData(SqlSession ss, Map<String, Object> map) {
+		List<Object> list = ss.selectList("connection_info.selectTableData", map);
 		return list;
-		
 	}
 
 }

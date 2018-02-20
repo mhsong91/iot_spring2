@@ -1,5 +1,6 @@
 package com.iot.spring.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,8 +89,20 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 	}
 
 	@Override
-	public List<Object> getSql( HttpSession hs,Map<String, Object> map) {
+	public List<Object> getSql( HttpSession hs,Map<String, Object> map,String[] sqls) {
 		SqlSession ss = (SqlSession)hs.getAttribute("sqlSession");
-		return cidao.getsql(ss,map);
+		List<Object> selectList = new ArrayList<Object>();
+		for(String str : sqls) {
+			selectList.add(cidao.getsql(ss,str));
+		}
+		
+		return selectList;
+	}
+
+
+	@Override
+	public List<Object> getTableData(HttpSession hs, Map<String, Object> map) {
+		SqlSession ss = (SqlSession)hs.getAttribute("sqlSession");
+		return cidao.selectTableData(ss, map);
 	}
 }

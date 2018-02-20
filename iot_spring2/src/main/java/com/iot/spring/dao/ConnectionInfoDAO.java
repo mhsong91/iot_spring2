@@ -20,5 +20,6 @@ public interface ConnectionInfoDAO {
 	List<Map<String,Object>> selectDatabaseList(SqlSession ss)throws Exception ;
 	List<TableVO> selectTableList(SqlSession ss, String dbName);
 	List<ColumnVO> selectColumnList(SqlSession ss, Map<String,String> map);
-	List<Object> getsql(SqlSession ss, Map<String,Object> map);
+	List<Object> getsql(SqlSession ss, String str);
+	List<Object> selectTableData(SqlSession ss, Map<String,Object> map);
 }

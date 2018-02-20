@@ -49,7 +49,16 @@
 		and table_schema=#{dbName}
 		order by ordinal_position;
 	</select>
-	<select id="sql" resultType="map" parameterType="map">
-	${sqlTa}
+	<select id="selectTableData" resultType="map" parameterType="map">
+	select * from ${tableName}
+	limit 30;
+	</select>
+	
+	<select id="sql1" resultType="map" parameterType="map">
+	${sqlTa.first}
+	</select>
+	
+	<select id="sql" resultType="map" parameterType="string">
+	${value}
 	</select>
 </mapper>  

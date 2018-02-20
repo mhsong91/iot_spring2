@@ -1,5 +1,6 @@
 package com.iot.spring.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,13 @@ public class ConnectionInfoController {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	@Autowired
 	private ConnectionInfoService cis;
+
 	@RequestMapping("/list")
-	public @ResponseBody Map<String,Object> getConnectionList(HttpSession hs,Map<String,Object>map){
+	public @ResponseBody Map<String, Object> getConnectionList(HttpSession hs, Map<String, Object> map) {
 		UserInfoVO ui = new UserInfoVO();
-		if(hs.getAttribute("user")!=null) {
+		if (hs.getAttribute("user") != null) {
 			ui.setUiId(hs.getAttribute("user").toString());
-		}else {
+		} else {
 			ui.setUiId("red");
 		}
 		List<ConnectionInfoVO> ciList = cis.getConnectionInfoList(ui.getUiId());
@@ -42,46 +44,40 @@ public class ConnectionInfoController {
 		return map;
 	}
 
-
-	@RequestMapping(value="/db_list/{ciNo}", method=RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getDatabaseList(@PathVariable("ciNo") int ciNo,
-			Map<String,Object> map,HttpSession hs) {
+	@RequestMapping(value = "/db_list/{ciNo}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getDatabaseList(@PathVariable("ciNo") int ciNo, Map<String, Object> map,
+			HttpSession hs) {
 		List<Map<String, Object>> dbList;
 		try {
 			dbList = cis.getDatabaseList(hs, ciNo);
 			map.put("list", dbList);
 			map.put("parentId", ciNo);
 		} catch (Exception e) {
-			map.put("error",e.getMessage());
-			log.error("db connection error =>{}",e);
+			map.put("error", e.getMessage());
+			log.error("db connection error =>{}", e);
 		}
 		return map;
 	}
 
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> insertConnectionInfo(@Valid ConnectionInfoVO ci, Map<String,Object> map) {
-		log.info("ci=>{}",ci);
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> insertConnectionInfo(@Valid ConnectionInfoVO ci, Map<String, Object> map) {
+		log.info("ci=>{}", ci);
 		cis.insertConnectionInfo(map, ci);
 		return map;
 	}
-	@RequestMapping(value="/tables/{dbName}/{parentId}", method=RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getTabeList(
-			@PathVariable("dbName")String dbName, 
-			@PathVariable("parentId")String parentId,
-			HttpSession hs,
-			Map<String,Object> map) {
+
+	@RequestMapping(value = "/tables/{dbName}/{parentId}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getTabeList(@PathVariable("dbName") String dbName,
+			@PathVariable("parentId") String parentId, HttpSession hs, Map<String, Object> map) {
 		List<TableVO> tableList = cis.getTableList(hs, dbName);
 		map.put("list", tableList);
 		map.put("parentId", parentId);
 		return map;
 	}
 
-	@RequestMapping(value="/columns/{dbName}/{tableName}", method=RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getColumnList(
-			@PathVariable("dbName")String dbName, 
-			@PathVariable("tableName")String tableName,
-			HttpSession hs,
-			Map<String,Object> map) {
+	@RequestMapping(value = "/columns/{dbName}/{tableName}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getColumnList(@PathVariable("dbName") String dbName,
+			@PathVariable("tableName") String tableName, HttpSession hs, Map<String, Object> map) {
 		Map<String, String> pMap = new HashMap<String, String>();
 		pMap.put("dbName", dbName);
 		pMap.put("tableName", tableName);
@@ -89,18 +85,30 @@ public class ConnectionInfoController {
 		map.put("list", columnList);
 		return map;
 	}
-	@RequestMapping(value="/columns", method=RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getColumnList(Map<String,Object> map) {
-		//cis.getColumnList(hs, map)
+
+	@RequestMapping(value = "/tabledata/{tableName}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getColumnList(@PathVariable("tableName") String tableName, HttpSession hs,
+			Map<String, Object> map) {
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("tableName", tableName);
+		List<Object> tableList = cis.getTableData(hs, pMap);
+		map.put("list", tableList);
+
 		return map;
 	}
-	@RequestMapping(value="/sql", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getSql(HttpSession hs,@RequestParam Map<String,Object> map){
-		System.out.println(map);
-		List<Object> sqlResult = cis.getSql(hs,map);
-		System.out.println("??        "+sqlResult);
-		map.put("list", sqlResult);
-		System.out.println(map);
+
+	@RequestMapping(value = "/columns", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getColumnList(Map<String, Object> map) {
+		// cis.getColumnList(hs, map)
+		return map;
+	}
+
+	@RequestMapping(value = "/sql", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> getSql(HttpSession hs, @RequestParam Map<String, Object> map) {
+		String[] sqls = map.get("sqlTa").toString().split(";");
+		;
+		map.put("list",cis.getSql(hs, map, sqls));
+		
 		return map;
 	}
 

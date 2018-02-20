@@ -58,7 +58,7 @@ public class NaverTransDAOImpl implements NaverTransDAO{
 			con.setDefaultRequestProperty("Content-Type", this.contentType);
 			// post request
 			
-			String postParams = "source="+this.source+"&target="+this.target+"&text=" + text;  // 내가받은 영어에러메시지를 한글로 바꿀꺼야
+			String postParams = "source="+this.source+"&target="+this.target+"&text=" + text.substring(0, 30);  // 내가받은 영어에러메시지를 한글로 바꿀꺼야
 			
 			con.setDoOutput(true); 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
