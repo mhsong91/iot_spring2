@@ -54,9 +54,7 @@
 	limit 30;
 	</select>
 	
-	<select id="sql1" resultType="map" parameterType="map">
-	${sqlTa.first}
-	</select>
+	
 	
 	<select id="sql" resultType="map" parameterType="string">
 	${value}

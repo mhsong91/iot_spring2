@@ -152,10 +152,16 @@ function callback2(xhr,res){
 		alert(res.errorMsg);
 		$("div.text").append("에러ㅗ^^");
 	}
- 	if(res.list){
+ 	if(res.list[0][0]){
  		
-		var sqlResultGrid = cLay.attachGrid();
-		var columns = res.list[0][0];
+	cTabs = cLay.attachTabbar();
+		
+		for(var i=0;i<res.list.length;i++){
+			cTabs.addTab("a"+i,"result",null,null,false,true);
+			queryGrid = cTabs.tabs("a"+i).attachGrid();
+			
+		
+		var columns = res.list[i][0];
 		var headerStr = "";
 		var colTypeStr = "";
 		for(var key in columns){
@@ -164,17 +170,16 @@ function callback2(xhr,res){
 		}
 		headerStr = headerStr.substr(0, headerStr.length-1);
 		colTypeStr = colTypeStr.substr(0, colTypeStr.length-1);
-		sqlResultGrid.setColumnIds(headerStr);
-		sqlResultGrid.setHeader(headerStr);
-		sqlResultGrid.setColTypes(colTypeStr);
-		sqlResultGrid.init();
-		sqlResultGrid.parse({data:res.list[0]},"js");
-	/* 	var log = document.getElementById('footDiv');
- 		log.innerHTML=colTypeStr.size;	
- 	 */
- 	}
+		queryGrid.setColumnIds(headerStr);
+		queryGrid.setHeader(headerStr);
+		queryGrid.setColTypes(colTypeStr);
+		queryGrid.init();
+		queryGrid.parse({data:res.list[i]},"js");
+		
+ 	 
+ 		}
  		
- 	
+ 	}
 }
 
 
@@ -281,7 +286,7 @@ dhtmlxEvent(window,"load",function(){
 		}
 	});
 })
-
+//{"sqlTa":"select * from user_info;\nselect *from connection_info;","list":[[{"uiNo":16,"uiPwd":"red","uiId":"red","admin":"1","uiName":"홍길동","uiEmail":"red@naver.com"},{"uiNo":17,"uiPwd":"song","uiId":"song","admin":"1","uiName":"송길동","uiEmail":"song"}],[{"ciPwd":"test","ciNo":2,"uiId":"red","ciPort":3306,"ciDatabase":"iot2","ciName":"로컬호스트","ciUrl":"127.0.0.1","ciEtc":"aa","ciUser":"root"},{"ciPwd":"dbtest","ciNo":3,"uiId":"red","ciPort":3306,"ciDatabase":"dbconnector","ciName":"로컬어드민","ciUrl":"127.0.0.1","ciEtc":"aa","ciUser":"dbtest"}]]}
 
 
 

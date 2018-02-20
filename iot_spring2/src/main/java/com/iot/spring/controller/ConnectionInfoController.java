@@ -1,6 +1,6 @@
 package com.iot.spring.controller;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +107,7 @@ public class ConnectionInfoController {
 	public @ResponseBody Map<String, Object> getSql(HttpSession hs, @RequestParam Map<String, Object> map) {
 		String[] sqls = map.get("sqlTa").toString().split(";");
 		;
+		System.out.println("!!!!!!!!!!!!!!!!!"+map.get("sqlTa"));
 		map.put("list",cis.getSql(hs, map, sqls));
 		
 		return map;
