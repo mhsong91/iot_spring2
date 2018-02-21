@@ -17,11 +17,11 @@
 		from connection_info
 		where ciNo = #{ciNo}
 	</select>
-	<insert id="insertConnectionInfo" parameterType="ci">
+	<insert id="insertConnectionInfo" parameterType="ci" >
 		insert into connection_info(ciName, ciUrl, ciPort, ciDatabase, ciUser
 		,ciPwd, ciEtc, uiId)
 		values(#{ciName},#{ciUrl},#{ciPort},#{ciDatabase},#{ciUser},
-		#{ciPwd},#{ciEtc}, #{uiId})
+		#{ciPwd},#{ciEtc},#{uiId})
 	</insert>
 	<select id="selectDatabase" resultType="map">
 		show databases

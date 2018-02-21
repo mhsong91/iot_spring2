@@ -48,8 +48,9 @@ public class ConnectionInfoDAOImpl implements ConnectionInfoDAO {
 
 	@Override
 	public int insertConnectionInfo(ConnectionInfoVO ci) {
+		SqlSession ss = ssf.openSession();
 		int result = 0;
-		final SqlSession ss = ssf.openSession();
+		System.out.println("777777777777777777"+ci);
 		result = ss.insert("connection_info.insertConnectionInfo", ci);
 		ss.close();
 		return result;

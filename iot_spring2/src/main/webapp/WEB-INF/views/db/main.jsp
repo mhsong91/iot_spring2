@@ -34,6 +34,7 @@ div.controls {
 	padding: 5px 10px;
 	height: 70px;
 	border: 1px solid #dfdfdf;
+	overflow: auto;
 }
 </style>
 <script> 
@@ -127,8 +128,13 @@ function tableListCB(res){
 	}
 	dbTree.openItem(parentId);
 }
-function addConnectionCB(res){
-	console.log(res);
+function addConnectionCB(xhr,res){
+	var res = JSON.parse(res);
+	if(res.msg!=null){
+	alert(res.msg);
+	}else{
+		alert(res.emsg);	
+	}
 }
 function dbListCB(res){
 	console.log(res);
@@ -152,10 +158,14 @@ function callback2(xhr,res){
 		alert(res.errorMsg);
 		$("div.text").append("에러ㅗ^^");
 	}
+	$("div.text").append("실행한쿼리:"+res.list.length+",");	
+		$("div.text").append("실행시간:"+res.time+"Millis"+"<br>");
+		for(var i=0;i<res.size.length;i++){
+			$("div.text").append("찾은행:"+res.size[i]+"/");	
+		}
+		
  	if(res.list[0][0]){
- 		$("div.text").append("실행한행:"+res.list.length+",");	
- 		$("div.text").append("실행시간:"+res.time+"Millis");	
-	cTabs = cLay.attachTabbar();
+ 		cTabs = cLay.attachTabbar();
 		
 		for(var i=0;i<res.list.length;i++){
 			cTabs.addTab("a"+i,"result",null,null,false,true);
@@ -234,13 +244,13 @@ dhtmlxEvent(window,"load",function(){
 			{type: "newcolumn"},
 			{type: "button", name:"cancelBtn",value: "취소"} 
 		]},
-		{type:"input",name:"sqlTa",label:"sql",required:true,rows:10,style:"background-color:#ecf3f9;border:1px solid #39c;width:800"},
+		{type:"input",name:"sqlTa",label:"sql",required:true,rows:10,style:"background-color:#ecf3f9;border:1px solid #39c;width:1550;height:85%;"},
 	];
 	var sqlForm = bTabs.tabs("sql").attachForm(sqlFormObj);
 	
 	sqlForm.attachEvent("onButtonClick",function(id){
 		if(id=="runBtn"){
-			$("div.text").append(sqlForm.getItemValue("sqlTa"));
+			$("div.text").append(sqlForm.getItemValue("sqlTa")+"<br>");
 			if(sqlForm.validate()){
 				sqlForm.send("${root}/connection/sql", "post",callback2);
 			}
@@ -266,7 +276,6 @@ dhtmlxEvent(window,"load",function(){
 				{type:"input",name:"ciDatabase", label:"데이터베이스",required:true},
 				{type:"input",name:"ciUser", label:"유저ID",required:true},
 				{type:"password",name:"ciPwd", label:"비밀번호",required:true},
-				{type:"input",name:"uiId", label:"로그인아이디",required:true},
 				{type:"input",name:"ciEtc", label:"설명"},
 				{type: "block", blockOffset: 0, list: [
 					{type: "button", name:"saveBtn",value: "저장"},
@@ -290,7 +299,7 @@ dhtmlxEvent(window,"load",function(){
 
 
 </script>
-<body>
+<body style="background-color:#68DF9D;">
 	<div id="footDiv" class="my_ftr">
 		<div class="text">log:</div>
 	</div>

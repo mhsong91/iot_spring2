@@ -51,6 +51,7 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 
 	@Override
 	public void insertConnectionInfo(Map<String, Object> rMap, ConnectionInfoVO ci) {
+		
 		int result = cidao.insertConnectionInfo(ci);
 		rMap.put("msg", "저장이 실패하였습니다.");
 		if(result==1) {
@@ -92,10 +93,13 @@ public class ConnectionInfoServiceImpl implements ConnectionInfoService{
 	public List<Object> getSql( HttpSession hs,Map<String, Object> map,String[] sqls) {
 		SqlSession ss = (SqlSession)hs.getAttribute("sqlSession");
 		List<Object> selectList = new ArrayList<Object>();
+		
+		List<Integer> size = new ArrayList<Integer>();
 		for(String str : sqls) {
 			selectList.add(cidao.getsql(ss,str));
+			size.add(cidao.getsql(ss, str).size());
 		}
-		
+		map.put("size",size);
 		return selectList;
 	}
 

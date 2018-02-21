@@ -60,10 +60,18 @@ public class ConnectionInfoController {
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> insertConnectionInfo(@Valid ConnectionInfoVO ci, Map<String, Object> map) {
-		log.info("ci=>{}", ci);
-		cis.insertConnectionInfo(map, ci);
-		return map;
+	public @ResponseBody Map<String, Object> insertConnectionInfo(HttpSession hs, ConnectionInfoVO ci, Map<String, Object> map) {
+		Map<String, Object> rMap=new HashMap<String, Object>();
+		if(hs.getAttribute("user")!=null) {
+			ci.setUiId((String) hs.getAttribute("user"));
+			cis.insertConnectionInfo(rMap, ci);
+			log.info("ci=>{}", ci);
+		}else {
+			rMap.put("emsg","로그인부터 다시해세요ㅗ^^");
+		}
+		
+		
+		return rMap;
 	}
 
 	@RequestMapping(value = "/tables/{dbName}/{parentId}", method = RequestMethod.GET)
@@ -108,8 +116,8 @@ public class ConnectionInfoController {
 		long startTime = System.currentTimeMillis();
 		String[] sqls = map.get("sqlTa").toString().split(";");
 		
-		System.out.println("!!!!!!!!!!!!!!!!!"+map.get("sqlTa"));
 		map.put("list",cis.getSql(hs, map, sqls));
+		
 		long setTime =System.currentTimeMillis()-startTime;
 		map.put("time",setTime);
 		return map;
