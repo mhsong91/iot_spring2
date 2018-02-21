@@ -60,7 +60,7 @@
 		}
 	}
 </script>
-<body style="background-color:#68DF9D;">
+<body style="background-color:#848484;">
 	<div id="winVP"></div>
 </body>
 </html>

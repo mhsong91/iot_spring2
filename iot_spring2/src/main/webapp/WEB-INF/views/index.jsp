@@ -4,7 +4,7 @@
 <head>
 	<title>DataBase Administrator</title>
 </head>
-<body style="background-color:#68DF9D;">
+<body style="background-color:#848484;">
 <script>
 </script>
 <h1>

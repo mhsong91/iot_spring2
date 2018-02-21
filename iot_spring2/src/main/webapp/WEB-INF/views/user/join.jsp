@@ -49,7 +49,7 @@
 			}else if(id=="backBtn"){
 				location.href="${pPath}/user/login";
 			}else if(id=="checkBtn"){
-				var id=Form.getItemValue("uiId");
+				var id=form.getItemValue("uiId");
 				var aud = new AjaxUtilDx("${root}/user/check/"+id,form);
 				aud.send(callback2);
 			}
@@ -66,7 +66,7 @@
 		alert(res.msg);
 	}
 </script>
-<body style="background-color:#68DF9D;">
+<body style="background-color:#848484;">
 	<div id="winVP"></div>
 </body>
 </html>

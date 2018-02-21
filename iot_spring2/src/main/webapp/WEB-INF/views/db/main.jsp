@@ -175,14 +175,16 @@ function callback2(xhr,res){
 		var columns = res.list[i][0];
 		var headerStr = "";
 		var colTypeStr = "";
+		var headerStyle=[];
 		for(var key in columns){
 			headerStr += key + ",";
 			colTypeStr += "ro,";
+			headerStyle.push("color:Coral;")
 		}
 		headerStr = headerStr.substr(0, headerStr.length-1);
 		colTypeStr = colTypeStr.substr(0, colTypeStr.length-1);
 		queryGrid.setColumnIds(headerStr);
-		queryGrid.setHeader(headerStr);
+		queryGrid.setHeader(headerStr,null,headerStyle);
 		queryGrid.setColTypes(colTypeStr);
 		queryGrid.init();
 		queryGrid.parse({data:res.list[i]},"js");
@@ -299,7 +301,7 @@ dhtmlxEvent(window,"load",function(){
 
 
 </script>
-<body style="background-color:#68DF9D;">
+<body style="background-color:#848484;">
 	<div id="footDiv" class="my_ftr">
 		<div class="text">log:</div>
 	</div>

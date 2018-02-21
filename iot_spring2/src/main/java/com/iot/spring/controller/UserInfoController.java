@@ -49,7 +49,7 @@ public class UserInfoController {
 		return map;
 	}
 
-	@RequestMapping(value="/check/{uiId}", method=RequestMethod.GET)
+	@RequestMapping(value="/check/{uiId}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> join2(@PathVariable String uiId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("insertUI=>{}",uiId);
